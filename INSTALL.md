@@ -1,91 +1,94 @@
 # Instalação do SucupiraLAB
 
-## Pré-requisitos
-
-- [Node.js](https://nodejs.org) 18 ou superior
-- [Git](https://git-scm.com)
-- Uma conta no [GitHub](https://github.com)
+Não é necessário instalar nada localmente. O GitHub faz o build e publica o app automaticamente.
 
 ---
 
-## 1. Clonar o repositório
+## Passo 1 — Fork do repositório
 
-```bash
-git clone https://github.com/ombudsmanviktor/sucupiralab.git
-cd sucupiralab
-npm install
+1. Acesse **github.com/ombudsmanviktor/sucupiralab**
+2. Clique em **Fork** (canto superior direito)
+3. Escolha sua conta como destino e confirme
+
+Você terá uma cópia em `github.com/SEU-USUARIO/sucupiralab`.
+
+---
+
+## Passo 2 — Ativar o GitHub Pages
+
+1. No seu fork, acesse **Settings → Pages**
+2. Em **Source**, selecione **GitHub Actions**
+3. Salve
+
+O GitHub irá executar o workflow automaticamente e publicar o app. Aguarde cerca de 1–2 minutos e acesse:
+
+```
+https://SEU-USUARIO.github.io/sucupiralab
 ```
 
+> Você pode acompanhar o progresso em **Actions** → workflow "Build e deploy no GitHub Pages".
+
 ---
 
-## 2. Criar o repositório de dados no GitHub
+## Passo 3 — Criar o repositório de dados
 
-O SucupiraLAB armazena todos os seus dados em YAML num repositório GitHub **privado** de sua propriedade.
+O SucupiraLAB armazena seus dados em YAML num repositório GitHub **privado** de sua propriedade.
 
 1. Acesse **github.com → New repository**
 2. Deixe o repositório **privado**
-3. Marque "Add a README file" (para inicializar o branch `main`)
-4. Anote o nome de usuário e o nome do repositório criado
+3. Marque **"Add a README file"** (para inicializar o branch `main`)
+4. Anote o nome do repositório criado
 
 ---
 
-## 3. Gerar um Personal Access Token (PAT)
+## Passo 4 — Gerar um Personal Access Token (PAT)
 
 1. Acesse **github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)**
 2. Clique em **Generate new token (classic)**
-3. Marque o escopo **`repo`** (acesso completo a repositórios privados)
-4. Clique em **Generate token** e copie o valor gerado (`ghp_...`)
+3. Selecione o escopo **`repo`**
+4. Clique em **Generate token** e copie o valor (`ghp_...`)
 
 > ⚠️ O token é exibido apenas uma vez. Guarde-o em local seguro.
 
 ---
 
-## 4. Iniciar o app
+## Passo 5 — Configurar o login
 
-```bash
-npm run dev
-```
+Acesse `https://SEU-USUARIO.github.io/sucupiralab` e preencha:
 
-Acesse **http://localhost:5173** no browser.
+- **Personal Access Token** — o valor copiado no Passo 4
+- **Usuário / Org** — seu nome de usuário no GitHub
+- **Repositório** — nome do repositório criado no Passo 3
+- **Branch** — `main` (padrão)
 
----
-
-## 5. Configurar o login
-
-Na tela de login:
-
-1. Cole o **PAT** no campo "Personal Access Token"
-2. Preencha **Usuário / Org** com seu nome de usuário GitHub
-3. Preencha **Repositório** com o nome do repositório de dados criado no Passo 2
-4. Confirme o **Branch** (padrão: `main`)
-5. Clique em **Conectar e entrar**
-
-O app testará a conexão e, em caso de sucesso, redirecionará para a tela principal.
+Clique em **Conectar e entrar**.
 
 ---
 
 ## Login com Google (opcional)
 
-Para habilitar o login com Google (via Firebase), edite `public/config.json` e preencha os campos do bloco `firebase` com as credenciais do seu projeto Firebase.
+Para habilitar o login com Google, edite o arquivo `public/config.json` no seu fork e preencha os campos do bloco `firebase` com as credenciais do seu projeto Firebase. O commit acionará um novo deploy automaticamente.
 
-Deixe os campos em branco para desativar — o app funcionará normalmente só com PAT.
+Deixe os campos em branco para usar apenas o modo PAT — o app funciona normalmente sem Firebase.
 
 ---
 
-## Uso em produção (build local)
+## Instalação local (desenvolvimento)
+
+Se preferir rodar o app localmente:
 
 ```bash
-npm run build
-npm run preview
+git clone https://github.com/SEU-USUARIO/sucupiralab.git
+cd sucupiralab
+npm install
+npm run dev        # http://localhost:5173
 ```
-
-O app ficará disponível em **http://localhost:4173**.
 
 ---
 
 ## Estrutura de dados
 
-Os dados são salvos automaticamente no repositório GitHub configurado no login, organizados em subpastas:
+Os dados são salvos no repositório GitHub configurado no login:
 
 ```
 data/
