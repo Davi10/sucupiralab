@@ -10,150 +10,9 @@ O SucupiraLAB foi desenvolvido em TypeScript com React 19 como framework de inte
 
 A autenticação é feita via Firebase Authentication (Google OAuth), e toda a persistência de dados ocorre diretamente no repositório GitHub do usuário por meio da GitHub Contents API (REST), sem banco de dados externo. Os dados são armazenados em arquivos YAML e anexos em base64, organizados por entidade no repositório. O projeto não depende de nenhum serviço de backend próprio — o navegador se comunica diretamente com as APIs do GitHub e do Firebase.
 
-# 🚀 Instalação do SucupiraLAB — Passo a passo
-
-> Toda a configuração é feita pelo navegador e pela interface do GitHub.
-> Nenhum terminal, nenhum build local — o GitHub cuida de tudo automaticamente.
-
-![SucupiraLAB](./screenshots/07-producao.jpg)
-
 ---
 
-## Passo 1 — Fork do repositório no GitHub
-
-1. Acesse [github.com](https://github.com) com sua conta
-2. Vá ao repositório do SucupiraLAB e clique em **Fork** (ou suba os arquivos em um repositório novo)
-3. O repositório pode ser **público ou privado**
-
----
-
-## Passo 2 — Ativar o GitHub Pages
-
-1. No repositório forkado: **Settings → Pages**
-2. Em "Source", selecione **GitHub Actions**
-3. Salve — nada mais a fazer aqui
-
----
-
-## Passo 3 — Criar um repositório de dados no GitHub
-
-1. Crie um segundo repositório **privado** (ex: `meus-dados-sucupira`) — é onde os seus dados YAML serão salvos
-2. Não precisa de nenhum arquivo dentro, pode ficar vazio
-
----
-
-## Passo 4 — Obter um PAT do GitHub (feito pelo navegador)
-
-1. GitHub → **Settings → Developer settings → Personal access tokens → Tokens (classic)**
-2. Clique **Generate new token**
-3. Marque o escopo **`repo`**
-4. Gere e copie o token — você vai colá-lo no app mais tarde
-
----
-
-## Passo 5A — (Opcional) Configurar login com Google
-
-Se quiser o botão "Entrar com Google", edite o arquivo `public/config.json` direto no GitHub
-(clique no arquivo → ícone de lápis ✏️):
-
-```json
-{
-  "_instrucoes": "Preencha os campos abaixo com as credenciais do seu projeto Firebase",
-  "firebase": {
-    "apiKey": "AIza...",
-    "authDomain": "seu-projeto.firebaseapp.com",
-    "projectId": "seu-projeto",
-    "storageBucket": "seu-projeto.firebasestorage.app",
-    "messagingSenderId": "123456789",
-    "appId": "1:123:web:abc..."
-  }
-}
-```
-
-### Para criar o projeto Firebase:
-
-1. Acesse [console.firebase.google.com](https://console.firebase.google.com) → **Criar projeto**
-2. **Authentication → Sign-in method → Google → Ativar**
-3. **Project settings → Your apps → Web app** (ícone `</>`) → copie o `firebaseConfig`
-4. Em **Authentication → Settings → Authorized domains** → adicione `SEU-USUARIO.github.io`
-
-> Se não quiser Google Auth, deixe o `config.json` com os campos em branco — o app funcionará com PAT + GitHub direto.
-
----
-
-## Passo 5B — (Opcional) Criar o OAuth App no GitHub
-
-1. Acesse github.com → Settings → Developer settings → OAuth Apps → New OAuth App
-
-2. Preencha:
-
-Application name: SucupiraLAB (ou outro nome)
-Homepage URL: URL do seu app (ex: https://sucupiralab.ombudsmanviktor.me)
-Authorization callback URL: pode deixar a mesma URL do Homepage — não é usada no Device Flow
-
-3. Clique em Register application
-
-Na tela do app criado, role até Device Authorization e ative o toggle "Enable Device Flow"
-Copie o Client ID exibido (começa com Iv1.)
-⚠️ Não é necessário gerar Client Secret — o Device Flow para apps públicos usa apenas o Client ID.
-
-### Configurar o config.json
-
-No arquivo public/config.json do repositório da aplicação, preencha o campo clientId:
-
-{
-  "github_oauth": {
-    "clientId": "Iv1.xxxxxxxxxxxxxxxxx"
-  }
-}
-
-Após salvar e republicar o app, o botão "Entrar com GitHub" aparecerá automaticamente na tela de login.
-
-Como funciona para o usuário:
-
-1. Clica em Entrar com GitHub
-2. O app exibe um código curto (ex: ABCD-1234)
-3. O usuário acessa github.com/login/device em qualquer browser, digita o código e clica em Authorize
-4. O app recebe o token automaticamente — sem digitar PAT
-5. Na primeira vez, informa o repositório de dados (owner/repo); nas próximas, entra direto
-
-### Mantendo o login com PAT
-
-Se preferir não configurar o OAuth (deixar clientId em branco), a tela de login mostrará apenas o formulário PAT — o comportamento atual, sem alterações. Quando o OAuth está ativo, o formulário PAT continua acessível via toggle "Configurar com PAT" na tela de login.
-
-
-## Passo 6 — Fazer o deploy (automático)
-
-Qualquer commit/push na branch `main` do repositório dispara o **GitHub Actions** automaticamente, que:
-
-1. Instala as dependências (`npm ci`)
-2. Compila o projeto (`npm run build`)
-3. Publica no GitHub Pages
-
-O primeiro deploy demora ~2 minutos. Você pode acompanhar em:
-**Actions → Build e Deploy no GitHub Pages**
-
----
-
-## Passo 7 — Primeiro acesso ao site
-
-1. Acesse: `https://SEU-USUARIO.github.io/NOME-DO-REPO/`
-2. Se configurou Firebase: clique **Entrar com Google**
-3. Se não configurou: use o formulário de PAT direto
-4. Preencha:
-   - **PAT**: o token gerado no Passo 4
-   - **Usuário/Org**: seu usuário GitHub
-   - **Repositório**: `meus-dados-sucupira` (criado no Passo 3)
-5. Clique **Conectar e entrar** — pronto! ✅
-
-> Os dados são salvos como arquivos YAML no seu repositório privado.
-> Cada usuário que logar com uma conta Google diferente terá acesso apenas aos seus próprios dados.
-
-![SucupiraLAB](./screenshots/01-login.png)
-
----
-
-## Módulos
+## :gem: Módulos
 
 ### 1. Prestações de Contas
 
@@ -210,34 +69,125 @@ Monitore e acompanhe suas submissões de manuscritos a periódicos ou eventos, r
 
 ![SucupiraLAB](./screenshots/09-submissoes.jpg)
 
+---
 
 ---
 
-## Estrutura de dados criada automaticamente
+# 🚀 Instalação do SucupiraLAB — Passo a passo
+
+> Toda a configuração é feita pelo navegador e pela interface do GitHub.
+> Nenhum terminal, nenhum build local — o GitHub cuida de tudo automaticamente.
+
+![SucupiraLAB](./screenshots/07-producao.jpg)
+
+---
+
+## Passo 1 — Fork do repositório
+
+1. Acesse **github.com/ombudsmanviktor/sucupiralab**
+2. Clique em **Fork** (canto superior direito)
+3. Escolha sua conta como destino e confirme
+
+Você terá uma cópia em `github.com/SEU-USUARIO/sucupiralab`.
+
+---
+
+## Passo 2 — Ativar o GitHub Pages
+
+1. No seu fork, acesse **Settings → Pages**
+2. Em **Source**, selecione **GitHub Actions**
+3. Salve
+
+O GitHub irá executar o workflow automaticamente e publicar o app. Aguarde cerca de 1–2 minutos e acesse:
 
 ```
-meus-dados-sucupira/
-├── data/
-│   ├── prestacoes/       ← Prestações de Contas (.yaml por entrada)
-│   ├── discursos/        ← Discursos Qualificados
-│   ├── projetos/         ← Projetos Financiados
-│   ├── orientacoes/      ← Orientações (inclui tarefas, reuniões, leituras)
-│   ├── producao/         ← Produção Científica
-│   └── submissoes/       ← Submissões (inclui eventos do kanban)
-└── attachments/          ← Anexos enviados via app (base64)
+https://SEU-USUARIO.github.io/sucupiralab
+```
+
+> Você pode acompanhar o progresso em **Actions** → workflow "Build e deploy no GitHub Pages".
+
+---
+
+## Passo 3 — Criar o repositório de dados
+
+O SucupiraLAB armazena seus dados em YAML num repositório GitHub **privado** de sua propriedade.
+
+1. Acesse **github.com → New repository**
+2. Deixe o repositório **privado**
+3. Marque **"Add a README file"** (para inicializar o branch `main`)
+4. Anote o nome do repositório criado
+
+---
+
+## Passo 4 — Gerar um Personal Access Token (PAT)
+
+1. Acesse **github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)**
+2. Clique em **Generate new token (classic)**
+3. Selecione o escopo **`repo`**
+4. Clique em **Generate token** e copie o valor (`ghp_...`)
+
+> ⚠️ O token é exibido apenas uma vez. Guarde-o em local seguro.
+
+---
+
+## Passo 5 — Configurar o login
+
+Acesse `https://SEU-USUARIO.github.io/sucupiralab` e preencha:
+
+- **Personal Access Token** — o valor copiado no Passo 4
+- **Usuário / Org** — seu nome de usuário no GitHub
+- **Repositório** — nome do repositório criado no Passo 3
+- **Branch** — `main` (padrão)
+
+Clique em **Conectar e entrar**.
+
+---
+
+## Login com Google (opcional)
+
+Para habilitar o login com Google, edite o arquivo `public/config.json` no seu fork e preencha os campos do bloco `firebase` com as credenciais do seu projeto Firebase. O commit acionará um novo deploy automaticamente.
+
+Deixe os campos em branco para usar apenas o modo PAT — o app funciona normalmente sem Firebase.
+
+---
+
+## Instalação local (desenvolvimento)
+
+Se preferir rodar o app localmente:
+
+```bash
+git clone https://github.com/SEU-USUARIO/sucupiralab.git
+cd sucupiralab
+npm install
+npm run dev        # http://localhost:5173
 ```
 
 ---
 
-## Modos de operação
+## Estrutura de dados
 
-| Modo | Quando ocorre | Persistência |
-|------|--------------|--------------|
-| **Demo** | Sem PAT configurado, clica "Modo Demonstração" | ❌ Dados fictícios, sem salvar |
-| **GitHub** | PAT + repositório configurados | ✅ YAML no repositório privado |
-| **Google + GitHub** | Firebase configurado + PAT configurado | ✅ Dados isolados por usuário Google |
-| **GitHub OAuth** | GitHub OAuth App + PAT configurado | ✅ Dados isolados por usuário GitHub |
+Os dados são salvos no repositório GitHub configurado no login:
+
+```
+data/
+  prestacoes/          ← Prestações de Contas
+  discursos/           ← Discursos Qualificados
+  projetos/            ← Projetos Financiados
+  orientacoes/         ← Orientações
+  producao/            ← Produção Científica
+  submissoes/          ← Submissões
+  nucleacoes/          ← Nucleação
+  internacionalizacao/ ← Internacionalização
+attachments/           ← Anexos (base64 via API)
+```
+
+> Cada registro é um arquivo `.yaml` independente, editável diretamente pelo GitHub se necessário.
+> Os dados são salvos em arquivos `.yaml` no seu repositório privado.
+> Cada usuário que logar com uma conta Google diferente terá acesso apenas aos seus próprios dados.
+
+![SucupiraLAB](./screenshots/01-login.png)
 
 ---
+
 
 *SucupiraLAB — Gestão acadêmica · um projeto desenvolvido por [coLAB/UFF](https://colab-uff.github.io/)*
