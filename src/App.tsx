@@ -8,7 +8,9 @@ import { Prestacoes } from '@/pages/Prestacoes'
 import { Discursos } from '@/pages/Discursos'
 import { Projetos } from '@/pages/Projetos'
 import { Orientacoes } from '@/pages/Orientacoes'
+import { Nucleacao } from '@/pages/Nucleacao'
 import { Producao } from '@/pages/Producao'
+import { Internacionalizacao } from '@/pages/Internacionalizacao'
 import { Submissoes } from '@/pages/Submissoes'
 import { NotFound } from '@/pages/NotFound'
 
@@ -35,7 +37,9 @@ export default function App() {
               <Route path="/discursos" element={<Discursos />} />
               <Route path="/projetos" element={<Projetos />} />
               <Route path="/orientacoes" element={<Orientacoes />} />
+              <Route path="/nucleacao" element={<Nucleacao />} />
               <Route path="/producao" element={<Producao />} />
+              <Route path="/internacionalizacao" element={<Internacionalizacao />} />
               <Route path="/submissoes" element={<Submissoes />} />
             </Route>
             <Route path="*" element={<NotFound />} />

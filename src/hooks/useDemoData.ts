@@ -1,5 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext'
-import type { Prestacao, Despesa, Discurso, ProjetoFinanciado, Orientacao, Tarefa, Submissao, SubmissaoEvento } from '@/types'
+import type { Prestacao, Despesa, Discurso, ProjetoFinanciado, Orientacao, Tarefa, Submissao, SubmissaoEvento, Nucleacao, Internacionalizacao } from '@/types'
 
 const DEMO_PRESTACOES: Prestacao[] = [
   {
@@ -86,6 +86,73 @@ const DEMO_EVENTOS: SubmissaoEvento[] = [
   { id: '2', user_id: 'demo-user-id', submissao_id: '3', tipo: 'revisao', descricao: 'Rodada de revisão iniciada', data: '2024-01-20', revista: 'RBCA', created_at: new Date().toISOString() },
 ]
 
+const DEMO_NUCLEACOES: Nucleacao[] = [
+  {
+    id: '1', user_id: 'demo-user-id',
+    nome_egresso: 'Ana Carolina Mendes',
+    curso: 'Doutorado',
+    ano_conclusao: 2023,
+    ano_nucleacao: 2023,
+    tipo_insercao: 'Contrato Permanente',
+    tipo_instituicao: 'Pública',
+    nome_instituicao: 'UFF — Universidade Federal Fluminense',
+    observacoes: 'Aprovada em concurso público para professora adjunta.',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: '2', user_id: 'demo-user-id',
+    nome_egresso: 'Bruno Rodrigues Lima',
+    curso: 'Mestrado',
+    ano_conclusao: 2022,
+    ano_nucleacao: 2023,
+    tipo_insercao: 'Bolsa',
+    agencia_fomento: 'CAPES — Programa de Fixação de Doutores',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: '3', user_id: 'demo-user-id',
+    nome_egresso: 'Carla Ferreira Nunes',
+    curso: 'Pós-Doutorado',
+    ano_conclusao: 2024,
+    ano_nucleacao: 2024,
+    tipo_insercao: 'Contrato Temporário',
+    tipo_instituicao: 'Privada',
+    nome_instituicao: 'PUC-Rio — Pontifícia Universidade Católica do Rio de Janeiro',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+]
+
+const DEMO_INTERNACIONALIZACOES: Internacionalizacao[] = [
+  {
+    id: '1', user_id: 'demo-user-id',
+    titulo: 'Cooperação Brasil-França em Inteligência Artificial Educacional',
+    ano_inicio: 2022,
+    situacao: 'Em Andamento',
+    programas_pos: ['Informática', 'Educação'],
+    instituicoes: ['Université Paris-Saclay', 'INRIA'],
+    membros_equipe: ['Prof. Dr. João Silva', 'Dra. Marie Dupont', 'Ana Mendes'],
+    edital: 'CAPES-COFECUB 2022',
+    financiamento: 'CAPES PrInt, COFECUB',
+    recursos: 'R$ 120.000,00 / € 30.000',
+    descricao: 'Projeto de cooperação focado em algoritmos de recomendação para EaD.',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: '2', user_id: 'demo-user-id',
+    titulo: 'Rede Ibero-Americana de Pesquisa em Mineração de Dados Educacionais',
+    ano_inicio: 2020,
+    situacao: 'Concluída',
+    ano_encerramento: 2023,
+    programas_pos: ['Informática', 'Ciência da Computação'],
+    instituicoes: ['Universidad Complutense de Madrid', 'Universidad de Buenos Aires', 'UNAM'],
+    membros_equipe: ['Prof. Dr. João Silva', 'Prof. Carlos García', 'Dra. Laura Martínez'],
+    financiamento: 'CNPq Universal',
+    recursos: 'R$ 80.000,00',
+    resultados: 'Publicados 5 artigos em coautoria internacional, 2 teses co-orientadas.',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+]
+
 export function useDemoData() {
   const { isDemoMode } = useAuth()
   return {
@@ -98,5 +165,7 @@ export function useDemoData() {
     tarefas: DEMO_TAREFAS,
     submissoes: DEMO_SUBMISSOES,
     eventos: DEMO_EVENTOS,
+    nucleacoes: DEMO_NUCLEACOES,
+    internacionalizacoes: DEMO_INTERNACIONALIZACOES,
   }
 }

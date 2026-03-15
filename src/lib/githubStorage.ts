@@ -38,6 +38,8 @@ import type {
   Submissao,
   SubmissaoEvento,
   Anexo,
+  Nucleacao,
+  Internacionalizacao,
 } from '@/types'
 
 // ─── Internal (persisted) shapes — user_id stripped, sub-entities embedded ──
@@ -416,4 +418,46 @@ export async function saveSubmissaoFile(
 
 export async function deleteSubmissaoFile(id: string): Promise<void> {
   await deleteYaml(`data/submissoes/${id}.yaml`, `Delete submissao ${id}`)
+}
+
+// ─── NUCLEAÇÕES ───────────────────────────────────────────────────────────
+
+export async function loadNucleacoes(): Promise<Nucleacao[]> {
+  const files = await listYamls('data/nucleacoes')
+  const docs = await Promise.all(files.map((f) => readYaml<Omit<Nucleacao, 'user_id'>>(f)))
+  return docs.map((d) => ({ ...d, user_id: GH_USER }))
+}
+
+export async function saveNucleacao(n: Nucleacao): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { user_id: _u, ...stored } = n
+  await writeYaml(`data/nucleacoes/${n.id}.yaml`, stored, `Update nucleacao ${n.id}`)
+}
+
+export async function deleteNucleacao(id: string): Promise<void> {
+  await deleteYaml(`data/nucleacoes/${id}.yaml`, `Delete nucleacao ${id}`)
+}
+
+// ─── INTERNACIONALIZAÇÃO ──────────────────────────────────────────────────
+
+export async function loadInternacionalizacoes(): Promise<Internacionalizacao[]> {
+  const files = await listYamls('data/internacionalizacao')
+  const docs = await Promise.all(
+    files.map((f) => readYaml<Omit<Internacionalizacao, 'user_id'>>(f))
+  )
+  return docs.map((d) => ({ ...d, user_id: GH_USER }))
+}
+
+export async function saveInternacionalizacao(item: Internacionalizacao): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { user_id: _u, ...stored } = item
+  await writeYaml(
+    `data/internacionalizacao/${item.id}.yaml`,
+    stored,
+    `Update internacionalizacao ${item.id}`
+  )
+}
+
+export async function deleteInternacionalizacao(id: string): Promise<void> {
+  await deleteYaml(`data/internacionalizacao/${id}.yaml`, `Delete internacionalizacao ${id}`)
 }

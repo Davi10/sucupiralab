@@ -141,3 +141,38 @@ export interface Publicacao {
   created_at: string
   updated_at: string
 }
+
+export interface Nucleacao {
+  id: string
+  user_id: string
+  nome_egresso: string
+  curso: 'Mestrado' | 'Doutorado' | 'Pós-Doutorado'
+  ano_conclusao: number
+  ano_nucleacao: number
+  tipo_insercao: 'Bolsa' | 'Contrato Temporário' | 'Contrato Permanente'
+  agencia_fomento?: string
+  tipo_instituicao?: 'Pública' | 'Privada'
+  nome_instituicao?: string
+  observacoes?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Internacionalizacao {
+  id: string
+  user_id: string
+  titulo: string
+  ano_inicio: number
+  situacao: 'Em Andamento' | 'Concluída'
+  ano_encerramento?: number
+  programas_pos?: string[]
+  instituicoes?: string[]
+  membros_equipe?: string[]
+  edital?: string
+  financiamento?: string
+  recursos?: string
+  descricao?: string
+  resultados?: string
+  created_at: string
+  updated_at: string
+}

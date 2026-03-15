@@ -24,13 +24,17 @@ export async function loadRuntimeConfig(): Promise<void> {
     if (!res.ok) return
     const raw: RuntimeConfig & { _instrucoes?: string } = await res.json()
 
+    const next: RuntimeConfig = {}
+
     // Validate Firebase block: only use it when the required fields are non-empty
     const fb = raw.firebase
     if (fb?.apiKey?.trim() && fb?.projectId?.trim() && fb?.authDomain?.trim()) {
-      _config = { firebase: fb }
+      next.firebase = fb
     }
+
+    _config = next
   } catch {
-    // config.json absent or malformed — run without Firebase (PAT-only mode)
+    // config.json absent or malformed — run without optional integrations
   }
 }
 
